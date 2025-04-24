@@ -34,8 +34,8 @@ export class PaymentsService {
 
       line_items: line_items,
       mode: 'payment',
-      success_url: envs.successUrl,
-      cancel_url: envs.cancelUrl,
+      success_url: envs.stripeSuccessUrl,
+      cancel_url: envs.stripeCancelUrl,
     });
 
     return session;
@@ -53,7 +53,7 @@ export class PaymentsService {
       event = this.stripe.webhooks.constructEvent(
         req['rawBody'],
         sig as string,
-        envs.stripeWebhookSecret,
+        envs.stripeEndpointSecret,
       );
     } catch (error) {
       console.log(error);

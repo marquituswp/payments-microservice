@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { Logger, ValidationPipe } from '@nestjs/common';
+import { Logger, RequestMethod, ValidationPipe } from '@nestjs/common';
 import { envs } from './config';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
@@ -10,7 +10,9 @@ async function bootstrap() {
   });
   const logger = new Logger('Payments-ms');
 
-  app.setGlobalPrefix('api');
+  app.setGlobalPrefix('api', {
+    exclude: [{ path: '/', method: RequestMethod.GET }],
+  });
 
   app.useGlobalPipes(
     new ValidationPipe({
@@ -31,6 +33,7 @@ async function bootstrap() {
     },
   );
 
+  console.log('Health Check configured');
   await app.startAllMicroservices();
   logger.log('Payments-ms microservice is running');
   await app.listen(envs.port ?? 3000);

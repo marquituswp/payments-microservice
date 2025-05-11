@@ -1,4 +1,11 @@
-# Payments MicroService
+# Payment Microservice
+
+Integrates with Stripe for processing payments and handling webhooks.
+
+## Tech Stack
+
+- NestJS
+- Stripe SDK
 
 ```
 docker compose up -d
